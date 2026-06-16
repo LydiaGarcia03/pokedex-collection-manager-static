@@ -1,7 +1,26 @@
 import { Egg, Hash, Heart, Leaf, MapPin, Palette, Ruler, Scale, Sparkles, Tag, Target, TrendingUp, TreePine, Users } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import type { Pokemon, PokemonMoveDetail } from '../types/Pokemon';
 import { InfoBalloon } from './InfoBalloon';
 import { TypeBadge } from './TypeBadge';
+
+const abilityCache = new Map<string, string>();
+
+async function fetchAbilityDescription(slug: string): Promise<string> {
+    if (abilityCache.has(slug)) return abilityCache.get(slug)!;
+    try {
+        const res = await fetch(`https://pokeapi.co/api/v2/ability/${slug}/`);
+        const data = await res.json();
+        const entry = data.effect_entries?.find(
+            (e: { language: { name: string }; short_effect: string }) => e.language.name === 'en'
+        );
+        const desc = entry?.short_effect ?? '';
+        abilityCache.set(slug, desc);
+        return desc;
+    } catch {
+        return '';
+    }
+}
 
 interface PokemonInfoTabProps {
     pokemon: Pokemon;
@@ -62,6 +81,10 @@ function formatEggGroups(groups: string[]): string {
 
 function formatHabitat(raw: string): string {
     return raw.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+function formatAbilityName(slug: string): string {
+    return slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 }
 
 function formatCategory(category: string | null | undefined): string {
@@ -177,6 +200,18 @@ function TypeEffectivenessSection({ typeEffectiveness }: { typeEffectiveness: Re
 }
 
 export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
+    const [abilityDescriptions, setAbilityDescriptions] = useState<Record<string, string>>({});
+
+    useEffect(() => {
+        if (!pokemon.abilities?.length) return;
+        setAbilityDescriptions({});
+        for (const slug of pokemon.abilities) {
+            fetchAbilityDescription(slug).then(desc => {
+                if (desc) setAbilityDescriptions(prev => ({ ...prev, [slug]: desc }));
+            });
+        }
+    }, [pokemon.id]);
+
     const statRows = getStatRows(pokemon);
     const hasExtras = pokemon.height != null;
     const hasSpecies = pokemon.genus != null || (pokemon.eggGroups != null && pokemon.eggGroups.length > 0) || pokemon.growthRate != null || pokemon.habitat != null || pokemon.captureRate != null;
@@ -223,7 +258,17 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
                                 <span className="pokemon-general-info-row__icon"><Sparkles size={16} /></span>
                                 <div>
                                     <small>Abilities</small>
-                                    <strong>{pokemon.abilities.join(', ')}</strong>
+                                    <strong className="pokemon-abilities-list">
+                                        {pokemon.abilities.map((slug, i) => (
+                                            <span key={slug}>
+                                                <InfoBalloon
+                                                    label={formatAbilityName(slug)}
+                                                    content={abilityDescriptions[slug]}
+                                                />
+                                                {i < pokemon.abilities!.length - 1 ? ', ' : ''}
+                                            </span>
+                                        ))}
+                                    </strong>
                                 </div>
                             </div>
                         )}

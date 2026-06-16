@@ -1488,6 +1488,10 @@ input {
     line-height: 1.4;
 }
 
+.pokemon-abilities-list {
+    display: inline;
+}
+
 .pokemon-recommended-natures {
     display: flex;
     flex-wrap: wrap;
