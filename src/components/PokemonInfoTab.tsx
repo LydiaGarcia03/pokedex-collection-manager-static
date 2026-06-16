@@ -1,3 +1,4 @@
+import { Egg, Hash, Heart, Leaf, MapPin, Palette, Ruler, Scale, Sparkles, Tag, Target, TrendingUp, TreePine, Users } from 'lucide-react';
 import type { Pokemon, PokemonMoveDetail } from '../types/Pokemon';
 import { InfoBalloon } from './InfoBalloon';
 import { TypeBadge } from './TypeBadge';
@@ -192,14 +193,14 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
                         {hasExtras && (
                             <>
                                 <div className="pokemon-general-info-row">
-                                    <span className="pokemon-general-info-row__icon">↕</span>
+                                    <span className="pokemon-general-info-row__icon"><Ruler size={16} /></span>
                                     <div>
                                         <small>Height</small>
                                         <strong>{formatHeight(pokemon.height!)}</strong>
                                     </div>
                                 </div>
                                 <div className="pokemon-general-info-row">
-                                    <span className="pokemon-general-info-row__icon">⚖</span>
+                                    <span className="pokemon-general-info-row__icon"><Scale size={16} /></span>
                                     <div>
                                         <small>Weight</small>
                                         <strong>{formatWeight(pokemon.weight!)}</strong>
@@ -207,7 +208,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
                                 </div>
                                 {pokemon.color && (
                                     <div className="pokemon-general-info-row">
-                                        <span className="pokemon-general-info-row__icon">●</span>
+                                        <span className="pokemon-general-info-row__icon"><Palette size={16} /></span>
                                         <div>
                                             <small>Color</small>
                                             <strong>{formatColor(pokemon.color)}</strong>
@@ -219,7 +220,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
 
                         {pokemon.abilities && pokemon.abilities.length > 0 && (
                             <div className="pokemon-general-info-row">
-                                <span className="pokemon-general-info-row__icon">✦</span>
+                                <span className="pokemon-general-info-row__icon"><Sparkles size={16} /></span>
                                 <div>
                                     <small>Abilities</small>
                                     <strong>{pokemon.abilities.join(', ')}</strong>
@@ -229,7 +230,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
 
                         {pokemon.recommendedNatures && pokemon.recommendedNatures.length > 0 && (
                             <div className="pokemon-general-info-row">
-                                <span className="pokemon-general-info-row__icon">◆</span>
+                                <span className="pokemon-general-info-row__icon"><Leaf size={16} /></span>
                                 <div>
                                     <small>Recommended Nature</small>
                                     <strong className="pokemon-recommended-natures">
@@ -259,7 +260,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
 
                         {pokemon.region && (
                             <div className="pokemon-general-info-row">
-                                <span className="pokemon-general-info-row__icon">⌖</span>
+                                <span className="pokemon-general-info-row__icon"><MapPin size={16} /></span>
                                 <div>
                                     <small>Region</small>
                                     <strong>{pokemon.region}</strong>
@@ -269,7 +270,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
 
                         {hasExtras && pokemon.generation != null && (
                             <div className="pokemon-general-info-row">
-                                <span className="pokemon-general-info-row__icon">▦</span>
+                                <span className="pokemon-general-info-row__icon"><Hash size={16} /></span>
                                 <div>
                                     <small>Generation</small>
                                     <strong>{formatGeneration(pokemon.generation)}</strong>
@@ -279,7 +280,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
 
                         {hasExtras && (
                             <div className="pokemon-general-info-row">
-                                <span className="pokemon-general-info-row__icon">♂♀</span>
+                                <span className="pokemon-general-info-row__icon"><Users size={16} /></span>
                                 <div>
                                     <small>Gender Ratio</small>
                                     <strong>{formatGender(pokemon.maleRate, pokemon.femaleRate)}</strong>
@@ -342,7 +343,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
                     <div className="pokemon-general-info-list">
                         {pokemon.genus && (
                             <div className="pokemon-general-info-row">
-                                <span className="pokemon-general-info-row__icon">✦</span>
+                                <span className="pokemon-general-info-row__icon"><Tag size={16} /></span>
                                 <div>
                                     <small>Genus</small>
                                     <strong>{pokemon.genus}</strong>
@@ -351,7 +352,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
                         )}
                         {pokemon.eggGroups && pokemon.eggGroups.length > 0 && (
                             <div className="pokemon-general-info-row">
-                                <span className="pokemon-general-info-row__icon">○</span>
+                                <span className="pokemon-general-info-row__icon"><Egg size={16} /></span>
                                 <div>
                                     <small>Egg Groups</small>
                                     <strong>{formatEggGroups(pokemon.eggGroups)}</strong>
@@ -360,7 +361,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
                         )}
                         {pokemon.growthRate && (
                             <div className="pokemon-general-info-row">
-                                <span className="pokemon-general-info-row__icon">↑</span>
+                                <span className="pokemon-general-info-row__icon"><TrendingUp size={16} /></span>
                                 <div>
                                     <small>Growth Rate</small>
                                     <strong>{formatGrowthRate(pokemon.growthRate)}</strong>
@@ -369,7 +370,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
                         )}
                         {pokemon.habitat && (
                             <div className="pokemon-general-info-row">
-                                <span className="pokemon-general-info-row__icon">◎</span>
+                                <span className="pokemon-general-info-row__icon"><TreePine size={16} /></span>
                                 <div>
                                     <small>Habitat</small>
                                     <strong>{formatHabitat(pokemon.habitat)}</strong>
@@ -378,7 +379,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
                         )}
                         {pokemon.captureRate != null && (
                             <div className="pokemon-general-info-row">
-                                <span className="pokemon-general-info-row__icon">⊙</span>
+                                <span className="pokemon-general-info-row__icon"><Target size={16} /></span>
                                 <div>
                                     <small>Capture Rate</small>
                                     <strong>{pokemon.captureRate}</strong>
@@ -387,7 +388,7 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
                         )}
                         {pokemon.baseHappiness != null && (
                             <div className="pokemon-general-info-row">
-                                <span className="pokemon-general-info-row__icon">♡</span>
+                                <span className="pokemon-general-info-row__icon"><Heart size={16} /></span>
                                 <div>
                                     <small>Base Happiness</small>
                                     <strong>{pokemon.baseHappiness}</strong>

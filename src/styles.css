@@ -1313,14 +1313,19 @@ input {
 
 .pokemon-general-info-row {
     display: grid;
-    grid-template-columns: 24px 1fr;
+    grid-template-columns: 26px 1fr;
     gap: 12px;
-    align-items: start;
+    align-items: center;
 }
 
 .pokemon-general-info-row__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
     color: #9cc8ed;
-    font-weight: 700;
+    flex-shrink: 0;
 }
 
 .pokemon-general-info-row small {
