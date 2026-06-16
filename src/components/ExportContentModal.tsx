@@ -49,7 +49,7 @@ export function ExportContentModal({ content, onClose }: ExportContentModalProps
 
                 <div className="collection-modal__actions">
                     <button type="button" className="collection-modal__btn-secondary" onClick={onClose}>
-                        Fechar
+                        Close
                     </button>
                     <button type="button" className="collection-modal__btn-primary" onClick={handleCopy}>
                         Copy Collection

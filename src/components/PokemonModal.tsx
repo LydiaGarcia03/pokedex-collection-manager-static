@@ -1,4 +1,4 @@
-import { Check, ChevronLeft, ChevronRight, Gamepad2, IdCard, Info, Sparkles } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, Eye, EyeOff, Gamepad2, IdCard, Info, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import type { UseCollectionReturn } from '../hooks/useCollection';
 import type { Pokemon, PokemonSummary } from '../types/Pokemon';
@@ -29,6 +29,7 @@ interface PokemonModalProps {
     onClose: () => void;
     collection: UseCollectionReturn;
     collectionVisible: boolean;
+    onToggleCollectionVisible: () => void;
 }
 
 export function PokemonModal({
@@ -40,6 +41,7 @@ export function PokemonModal({
                                  onClose,
                                  collection,
                                  collectionVisible,
+                                 onToggleCollectionVisible,
                              }: PokemonModalProps) {
     const [activeTab, setActiveTab] = useState<PokemonDetailTab>('info');
     const [showShiny, setShowShiny] = useState(false);
@@ -100,10 +102,20 @@ export function PokemonModal({
 
                     <button
                         type="button"
+                        className={`pokemon-detail-modal__visibility-toggle ${collectionVisible ? 'pokemon-detail-modal__visibility-toggle--active' : ''}`}
+                        onClick={onToggleCollectionVisible}
+                        title={collectionVisible ? 'Ocultar coleção' : 'Mostrar coleção'}
+                    >
+                        {collectionVisible ? <Eye size={16} /> : <EyeOff size={16} />}
+                        Visibility
+                    </button>
+
+                    <button
+                        type="button"
                         className="pokemon-detail-modal__close"
                         onClick={handleClose}
                     >
-                        Fechar
+                        Close
                     </button>
                 </header>
 
@@ -187,7 +199,7 @@ export function PokemonModal({
                                 onClick={() => setActiveTab('games')}
                             >
                                 <Gamepad2 size={16} />
-                                <span>Jogos</span>
+                                <span>Games</span>
                             </button>
 
                             <button
@@ -237,7 +249,7 @@ export function PokemonModal({
                 </div>
 
                 <footer className="pokemon-detail-modal__footer">
-                    <span className="pokemon-detail-modal__footer-label">Mais informações em:</span>
+                    <span className="pokemon-detail-modal__footer-label">More information at:</span>
                     <a
                         href={`https://bulbapedia.bulbagarden.net/wiki/${encodeURIComponent(summary.name.replace(/ /g, '_'))}_(Pokémon)`}
                         target="_blank"

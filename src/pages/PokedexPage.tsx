@@ -255,6 +255,7 @@ export function PokedexPage() {
                 onClose={handleCloseModal}
                 collection={collection}
                 collectionVisible={collectionVisible}
+                onToggleCollectionVisible={() => setCollectionVisible(v => !v)}
             />
 
             {showClearConfirm && (

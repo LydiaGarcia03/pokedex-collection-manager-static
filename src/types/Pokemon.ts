@@ -76,8 +76,8 @@ export interface Pokemon extends PokemonSummary {
     // Type effectiveness — only non-1.0 entries
     typeEffectiveness?: Record<string, number> | null;
 
-    // Natures that increase the Pokémon's highest base stat (excluding HP)
-    natures?: string[] | null;
+    // Top 3 best-fit natures, derived from base stats (no nature is "assigned" to a species)
+    recommendedNatures?: RecommendedNature[] | null;
 
     moveProgress?: PokemonMoveProgress[] | null;
     games?: PokemonGame[] | null;
@@ -91,6 +91,13 @@ export interface PokemonMoveDetail {
     category?: string | null;
     power?: number | null;
     accuracy?: number | null;
+    shortEffect?: string | null;
+}
+
+export interface RecommendedNature {
+    name: string;
+    increasedStat: string;
+    decreasedStat: string;
 }
 
 export interface PokemonMoveProgress {

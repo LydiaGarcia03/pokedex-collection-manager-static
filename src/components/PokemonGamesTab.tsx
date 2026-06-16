@@ -42,11 +42,11 @@ export function PokemonGamesTab({
 
     return (
         <div className="pokemon-games-tab">
-            <h2>Jogos digitais</h2>
-
             <p className="pokemon-tab-description">
-                Jogos em que este Pokémon aparece. Quando o Pokémon está selecionado na coleção,
-                você pode marcar os jogos individualmente.
+                List of games this pokemons shows up.
+                <br/>
+                When you select this pokemon, you can mark the games
+                individually for your collection as well.
             </p>
 
             {hasGames ? (
@@ -81,7 +81,7 @@ export function PokemonGamesTab({
                 </div>
             ) : (
                 <p className="pokemon-info-placeholder">
-                    Nenhum jogo encontrado para este Pokémon.
+                    No game found for this Pokemon.
                 </p>
             )}
         </div>

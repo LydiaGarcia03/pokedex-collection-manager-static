@@ -97,6 +97,7 @@ function buildLevelUpMoves(learnset) {
             category:  move.category  ?? null,
             power:     move.power     ?? null,
             accuracy:  move.accuracy  ?? null,
+            shortEffect: move.shortEffect ?? null,
         };
     });
 }
@@ -114,8 +115,53 @@ function buildMachineMoves(learnset) {
             category:  move.category  ?? null,
             power:     move.power     ?? null,
             accuracy:  move.accuracy  ?? null,
+            shortEffect: move.shortEffect ?? null,
         };
     });
+}
+
+// ---------------------------------------------------------------------------
+// Recommended natures — derived from base stats (no nature is "assigned" to a
+// species; we just suggest the 3 best fits based on its highest/lowest stats)
+// ---------------------------------------------------------------------------
+const NATURE_TABLE = [
+    { name: 'Lonely',  increasedStat: 'attack',          decreasedStat: 'defense' },
+    { name: 'Brave',   increasedStat: 'attack',          decreasedStat: 'speed' },
+    { name: 'Adamant', increasedStat: 'attack',          decreasedStat: 'special-attack' },
+    { name: 'Naughty', increasedStat: 'attack',          decreasedStat: 'special-defense' },
+    { name: 'Bold',    increasedStat: 'defense',         decreasedStat: 'attack' },
+    { name: 'Relaxed', increasedStat: 'defense',         decreasedStat: 'speed' },
+    { name: 'Impish',  increasedStat: 'defense',         decreasedStat: 'special-attack' },
+    { name: 'Lax',     increasedStat: 'defense',         decreasedStat: 'special-defense' },
+    { name: 'Timid',   increasedStat: 'speed',           decreasedStat: 'attack' },
+    { name: 'Hasty',   increasedStat: 'speed',           decreasedStat: 'defense' },
+    { name: 'Jolly',   increasedStat: 'speed',           decreasedStat: 'special-attack' },
+    { name: 'Naive',   increasedStat: 'speed',           decreasedStat: 'special-defense' },
+    { name: 'Modest',  increasedStat: 'special-attack',  decreasedStat: 'attack' },
+    { name: 'Mild',    increasedStat: 'special-attack',  decreasedStat: 'defense' },
+    { name: 'Quiet',   increasedStat: 'special-attack',  decreasedStat: 'speed' },
+    { name: 'Rash',    increasedStat: 'special-attack',  decreasedStat: 'special-defense' },
+    { name: 'Calm',    increasedStat: 'special-defense', decreasedStat: 'attack' },
+    { name: 'Gentle',  increasedStat: 'special-defense', decreasedStat: 'defense' },
+    { name: 'Sassy',   increasedStat: 'special-defense', decreasedStat: 'speed' },
+    { name: 'Careful', increasedStat: 'special-defense', decreasedStat: 'special-attack' },
+];
+
+function computeRecommendedNatures(ext) {
+    const stats = {
+        attack:            ext.attack,
+        defense:           ext.defense,
+        'special-attack':  ext.specialAttack,
+        'special-defense': ext.specialDefense,
+        speed:             ext.speed,
+    };
+    if (Object.values(stats).some(v => v == null)) return null;
+
+    return NATURE_TABLE
+        .map(n => ({ ...n, score: stats[n.increasedStat] - stats[n.decreasedStat] }))
+        .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name))
+        .slice(0, 3)
+        .map(({ name, increasedStat, decreasedStat }) => ({ name, increasedStat, decreasedStat }));
 }
 
 // ---------------------------------------------------------------------------
@@ -213,8 +259,8 @@ const compiled = pokedex.map(pokemon => {
         levelUpMoves:  buildLevelUpMoves(learnset),
         machineMoves:  buildMachineMoves(learnset),
 
-        // Natures: not available in static data (computed at runtime in backend)
-        natures: null,
+        // Top 3 recommended natures, derived from base stats
+        recommendedNatures: computeRecommendedNatures(ext),
     };
 });
 

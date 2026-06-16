@@ -22,7 +22,7 @@ export function ExportTypeModal({ onClose, onContinue }: ExportTypeModalProps) {
 
                 <div className="collection-modal__body">
                     <label className="collection-modal__label" htmlFor="export-type-select">
-                        Tipo de coleção
+                        Collection type
                     </label>
                     <select
                         id="export-type-select"
@@ -37,17 +37,17 @@ export function ExportTypeModal({ onClose, onContinue }: ExportTypeModalProps) {
 
                     {type === 'none' && (
                         <p className="collection-modal__hint">
-                            Para "No Specification", jogos e cartas selecionados não serão incluídos no arquivo.
+                            For "No Specification", games and cards selected will not be considered for the export action.
                         </p>
                     )}
                 </div>
 
                 <div className="collection-modal__actions">
                     <button type="button" className="collection-modal__btn-secondary" onClick={onClose}>
-                        Fechar
+                        Close
                     </button>
                     <button type="button" className="collection-modal__btn-primary" onClick={() => onContinue(type)}>
-                        Continuar
+                        Continue
                     </button>
                 </div>
             </div>

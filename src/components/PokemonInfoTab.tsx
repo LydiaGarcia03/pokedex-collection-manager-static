@@ -1,4 +1,5 @@
 import type { Pokemon, PokemonMoveDetail } from '../types/Pokemon';
+import { InfoBalloon } from './InfoBalloon';
 import { TypeBadge } from './TypeBadge';
 
 interface PokemonInfoTabProps {
@@ -11,6 +12,14 @@ interface StatRow {
 }
 
 const STAT_MAX = 160;
+
+const NATURE_STAT_LABELS: Record<string, string> = {
+    attack: 'Attack',
+    defense: 'Defense',
+    'special-attack': 'Sp. Atk',
+    'special-defense': 'Sp. Def',
+    speed: 'Speed',
+};
 
 const TYPE_EFFECTIVENESS_LABELS: Record<number, string> = {
     0: 'Immune',
@@ -109,7 +118,9 @@ function MoveTable({ title, rows }: { title: string; rows: PokemonMoveDetail[] }
                     {rows.map(row => (
                         <tr key={`${row.levelOrTm}-${row.moveSlug}`}>
                             <td>{row.levelOrTm}</td>
-                            <td className="pokemon-move-table__move">{row.moveName}</td>
+                            <td className="pokemon-move-table__move">
+                                <InfoBalloon label={row.moveName} content={row.shortEffect} />
+                            </td>
                             <td>
                                 {row.type ? (
                                     <span className={`pokemon-move-type pokemon-move-type--${row.type.toLowerCase()}`}>
@@ -216,12 +227,32 @@ export function PokemonInfoTab({ pokemon }: PokemonInfoTabProps) {
                             </div>
                         )}
 
-                        {pokemon.natures && pokemon.natures.length > 0 && (
+                        {pokemon.recommendedNatures && pokemon.recommendedNatures.length > 0 && (
                             <div className="pokemon-general-info-row">
                                 <span className="pokemon-general-info-row__icon">◆</span>
                                 <div>
-                                    <small>Natures</small>
-                                    <strong>{pokemon.natures.map(n => n.charAt(0).toUpperCase() + n.slice(1)).join(', ')}</strong>
+                                    <small>Recommended Nature</small>
+                                    <strong className="pokemon-recommended-natures">
+                                        {pokemon.recommendedNatures.map((nature, index) => (
+                                            <span key={nature.name} className="pokemon-recommended-nature">
+                                                <InfoBalloon
+                                                    className="pokemon-recommended-nature__name"
+                                                    label={nature.name}
+                                                    content={
+                                                        <span className="nature-balloon">
+                                                            <span className="nature-balloon__stat nature-balloon__stat--up">
+                                                                {NATURE_STAT_LABELS[nature.increasedStat]} ++
+                                                            </span>
+                                                            <span className="nature-balloon__stat nature-balloon__stat--down">
+                                                                {NATURE_STAT_LABELS[nature.decreasedStat]} --
+                                                            </span>
+                                                        </span>
+                                                    }
+                                                />
+                                                {index < pokemon.recommendedNatures!.length - 1 ? ', ' : ''}
+                                            </span>
+                                        ))}
+                                    </strong>
                                 </div>
                             </div>
                         )}

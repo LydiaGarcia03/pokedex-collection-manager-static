@@ -71,7 +71,7 @@ export function ImportCollectionModal({ onClose, onImport }: ImportCollectionMod
 
                 <div className="import-modal__body">
                     <div className="import-modal__side">
-                        <span className="import-modal__side-label">Colar texto</span>
+                        <span className="import-modal__side-label">Paste a text</span>
                         <textarea
                             className="collection-modal__textarea"
                             placeholder="Cole aqui o texto da coleção..."
@@ -85,7 +85,7 @@ export function ImportCollectionModal({ onClose, onImport }: ImportCollectionMod
                     <div className="import-modal__or">ou</div>
 
                     <div className="import-modal__side">
-                        <span className="import-modal__side-label">Anexar arquivo</span>
+                        <span className="import-modal__side-label">Import a file</span>
                         <input
                             ref={fileInputRef}
                             type="file"
@@ -122,7 +122,7 @@ export function ImportCollectionModal({ onClose, onImport }: ImportCollectionMod
 
                 <div className="collection-modal__actions">
                     <button type="button" className="collection-modal__btn-secondary" onClick={onClose}>
-                        Fechar
+                        Close
                     </button>
                     <button
                         type="button"
@@ -139,10 +139,10 @@ export function ImportCollectionModal({ onClose, onImport }: ImportCollectionMod
                         <div className="collection-modal__feedback collection-modal__feedback--success">
                             <CheckCircle size={15} />
                             <span>
-                                Importação concluída — {feedback.result.pokemonCount} Pokémon
-                                {feedback.result.gameCount > 0 && `, ${feedback.result.gameCount} jogos`}
-                                {feedback.result.cardCount > 0 && `, ${feedback.result.cardCount} cartas`}
-                                {feedback.result.invalidLines.length > 0 && ` · ${feedback.result.invalidLines.length} linha(s) ignorada(s)`}
+                                Import finished — {feedback.result.pokemonCount} Pokemon
+                                {feedback.result.gameCount > 0 && `, ${feedback.result.gameCount} games`}
+                                {feedback.result.cardCount > 0 && `, ${feedback.result.cardCount} cards`}
+                                {feedback.result.invalidLines.length > 0 && ` · ${feedback.result.invalidLines.length} line(s) ignored`}
                             </span>
                         </div>
                     ) : (
