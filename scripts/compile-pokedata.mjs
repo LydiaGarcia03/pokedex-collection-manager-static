@@ -190,8 +190,14 @@ console.log('\nCompiling Pokémon data...');
 const compiled = pokedex.map(pokemon => {
     // Both extras and learnsets are keyed by Pokémon ID ("0001", "0006-mega-x")
     // with fallback to the base form key (dexNumberFormatted = "0001", "0006")
-    const ext      = extras[pokemon.id]    ?? extras[pokemon.dexNumberFormatted]    ?? {};
-    const learnset = learnsets[pokemon.id] ?? learnsets[pokemon.dexNumberFormatted] ?? {};
+    const ext = extras[pokemon.id] ?? extras[pokemon.dexNumberFormatted] ?? {};
+
+    // Prefer the form-specific learnset; fall back to base form if the form entry
+    // exists but has empty arrays (e.g. Gigantamax forms in the source data).
+    const rawLearnset = learnsets[pokemon.id] ?? {};
+    const learnset = (rawLearnset.levelUp?.length || rawLearnset.machine?.length)
+        ? rawLearnset
+        : (learnsets[pokemon.dexNumberFormatted] ?? {});
 
     return {
         // Core identity

@@ -233,6 +233,25 @@ export function useCollection() {
         };
     }
 
+    function exportAsJson(): string {
+        return JSON.stringify(state);
+    }
+
+    function importFromJson(jsonString: string): boolean {
+        try {
+            const parsed = JSON.parse(jsonString) as Partial<CollectionState>;
+            setState({
+                selectedPokemonIds: parsed.selectedPokemonIds ?? [],
+                selectedGamesByPokemonId: parsed.selectedGamesByPokemonId ?? {},
+                selectedCardsByPokemonId: parsed.selectedCardsByPokemonId ?? {},
+            });
+            setPendingCleanupIds([]);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
     return {
         state,
 
@@ -262,6 +281,8 @@ export function useCollection() {
         clear,
 
         importFromText,
+        exportAsJson,
+        importFromJson,
     };
 }
 
