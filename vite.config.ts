@@ -6,7 +6,7 @@ export default defineConfig(({ command }) => ({
   plugins: [react()],
   // In dev: serve from root so `npm run dev` opens at http://localhost:5175/
   // In build: use the GitHub Pages sub-path for correct asset/image URLs
-  base: command === 'build' ? '/pokedex-collection-manager-static/' : '/',
+  base: command === 'build' ? '/pokedex-collection-manager/' : '/',
   build: {
     outDir: 'dist',
   },
