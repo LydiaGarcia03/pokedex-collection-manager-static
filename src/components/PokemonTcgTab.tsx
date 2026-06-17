@@ -112,10 +112,32 @@ export function PokemonTcgTab({
         );
     }
 
+    const isMegaForm = pokemon.id.includes('-mega');
+    const isGmaxForm = pokemon.id.includes('-gmax');
+
+    let displayCards = tcgData.cards;
+    if (isMegaForm) {
+        const megaCards = tcgData.cards.filter(c => /^(M |Mega )/i.test(c.name));
+        if (megaCards.length > 0) {
+            const isFormX = / X$/i.test(pokemon.formName ?? '');
+            const isFormY = / Y$/i.test(pokemon.formName ?? '');
+            if (isFormX) {
+                displayCards = megaCards.filter(c => !/ Y /i.test(c.name));
+            } else if (isFormY) {
+                displayCards = megaCards.filter(c => !/ X /i.test(c.name));
+            } else {
+                displayCards = megaCards;
+            }
+        }
+    } else if (isGmaxForm) {
+        const filtered = tcgData.cards.filter(c => c.name.includes('VMAX'));
+        if (filtered.length > 0) displayCards = filtered;
+    }
+
     return (
         <div className="pokemon-tcg-tab">
             <div className="pokemon-tcg-grid">
-                {tcgData.cards.map(card => {
+                {displayCards.map(card => {
                     const checked = selectedCardIds.includes(card.id);
 
                     return (
